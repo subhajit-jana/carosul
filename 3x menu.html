@@ -53,18 +53,31 @@
 
     <!-- main content  -->
     <div class="container-fluid body">
-        <div class="card-container">
+        <div class="dropdown">
+            <label for="multiplier">Select Multiplier: </label>
+            <select id="multiplier">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+        
+          <div class="card-container">
             <div class="card">
-              <div class="price" data-target="400">0</div>
+              <div class="price" data-base-price="500">500</div>
               <div class="title">Basic Plan</div>
             </div>
             <div class="card">
-              <div class="price" data-target="800">0</div>
+              <div class="price" data-base-price="600">600</div>
               <div class="title">Standard Plan</div>
             </div>
             <div class="card">
-              <div class="price" data-target="9000">0</div>
+              <div class="price" data-base-price="800">800</div>
               <div class="title">Premium Plan</div>
+            </div>
+            <div class="card">
+              <div class="price" data-base-price="1000">1000</div>
+              <div class="title">Ultimate Plan</div>
             </div>
           </div>
         
@@ -119,35 +132,25 @@
 
 
     <script>
-            // Function to animate the number increment
-    function animatePrices() {
-      const prices = document.querySelectorAll('.price');
-      
+   const multiplierDropdown = document.getElementById('multiplier');
+    const prices = document.querySelectorAll('.price');
+
+    // Function to update prices based on the multiplier
+    function updatePrices() {
+      const multiplier = +multiplierDropdown.value;
+
       prices.forEach(price => {
-        const target = +price.getAttribute('data-target'); // Get target value
-        const increment = target / 100; // Set increment value (smoothness)
-
-        let currentValue = 0;
-
-        const updatePrice = () => {
-          currentValue += increment;
-
-          if (currentValue < target) {
-            price.textContent = Math.floor(currentValue); // Update the price dynamically
-            requestAnimationFrame(updatePrice); // Continue animation
-          } else {
-            price.textContent = target; // Final value
-          }
-        };
-
-        updatePrice();
+        const basePrice = +price.getAttribute('data-base-price'); // Original price
+        price.textContent = basePrice * multiplier; // Update price
       });
     }
 
-    // Start the animation when the page loads
-    window.addEventListener('load', animatePrices);
-    </script>
+    // Event listener to update prices when the multiplier changes
+    multiplierDropdown.addEventListener('change', updatePrices);
 
+    // Initialize prices on page load
+    window.addEventListener('load', updatePrices);
+  </script>
 
 <!-- javascript code  -->
 
